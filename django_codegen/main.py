@@ -1,6 +1,12 @@
 import sys
 import os
+import time
+import itertools
+import threading
+from colorama import Fore, Style, init
+from tqdm import tqdm
 
+init(autoreset=True)
 sys.path.append(os.path.abspath(os.path.join(os.path.dirname(__file__), '../')))
 
 from core.generator import CodeGenerator
@@ -9,9 +15,19 @@ from core.writer import CodeWriter
 from prompts.openai_client import OpenAIClient
 from prompts.prompt_builder import PromptBuilder
 
+def spinner():
+    for c in itertools.cycle(['|', '/', '-', '\\']):
+        if done:
+            break
+        sys.stdout.write(f'\rGenerando código... {c}')
+        sys.stdout.flush()
+        time.sleep(0.1)
+    sys.stdout.write('\r' + Fore.GREEN + Style.BRIGHT + '\nGeneración completada!    \n')
 
 
 def main():
+    global done
+
     # Crear instancia del cliente GPT usando la API_KEY de las variables de entorno
     gpt_client = OpenAIClient(api_key=os.environ.get("OPENAI_API_KEY"))
     manager = CodeGenManager()
@@ -31,16 +47,17 @@ def main():
     user_inputs = {'models': []}
     created_models = set()
 
-    print("Bienvenido al generador de código Django. Vamos a crear tus modelos.\n")
+    print(Fore.CYAN + Style.BRIGHT + "Bienvenido al generador de código Django.")
+    print(Fore.CYAN + "Vamos a crear tus modelos.\n")
 
     while True:
         # Pedimos al usuario que introduzca el nombre del modelo
-        model_name = input("Introduce el nombre del modelo (o Enter para finalizar): ").strip()
+        model_name = input(f"{Fore.BLUE}Introduce el nombre del modelo (o Enter para finalizar): ").strip()
         if model_name.lower() == '':
             break
 
         # Preguntamos los campos del modelo
-        fields = input(f"Introduce los campos del modelo {model_name} separados por comas (o deja en blanco para generar automáticamente): ").strip()
+        fields = input(f"{Fore.YELLOW}Introduce los campos del modelo {model_name} separados por comas (o deja en blanco para generar automáticamente): ").strip()
 
         # Si el usuario deja los campos en blanco, GPT generará los campos
         if not fields:
@@ -64,10 +81,19 @@ def main():
 
     if user_inputs['models']:
         # Si se han introducido modelos, generamos y escribimos el código
+        done = False
+        t = threading.Thread(target=spinner)
+        t.start()
+
         manager.generate_code(user_inputs)
-        print(f"Código generado en el directorio: {output_dir}")
+
+        done = True
+        t.join()
+
+        print(f"{Fore.GREEN}Código generado en el directorio: {output_dir}")
     else:
-        print("No se ha creado ningún modelo.")
+        print(Fore.RED + "No se ha creado ningún modelo.")
+
 
 if __name__ == '__main__':
     main()
