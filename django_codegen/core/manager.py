@@ -27,5 +27,5 @@ class CodeGenManager:
         if not self.generator or not self.writer:
             raise Exception("Generator and Writer must be set before generating code.")
         
-        models_code, serializers_code, viewsets_code = self.generator.generate(user_inputs)
-        self.writer.write(models_code, serializers_code, viewsets_code)
+        models_code, serializers_code, viewsets_code, urls_code = self.generator.generate(user_inputs)
+        self.writer.write(models_code, serializers_code, viewsets_code, urls_code)

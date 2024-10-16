@@ -12,10 +12,13 @@ class CodeGenerator:
         # Primero generamos los modelos
         models_code = self.generate_models(user_inputs['models'])
         # Luego generamos los serializers
-        serializers_code = self.generate_serializers(user_inputs['models'])  # Pasamos los mismos modelos para los serializers
+        serializers_code = self.generate_serializers(user_inputs['models'])
         # Finalmente generamos los viewsets
-        viewsets_code = self.generate_viewsets(user_inputs['models'])  # Usamos los modelos para los viewsets
-        return models_code, serializers_code, viewsets_code
+        viewsets_code = self.generate_viewsets(user_inputs['models'])
+        # Generamos las URLs
+        urls_code = self.generate_urls(user_inputs['models'])
+
+        return models_code, serializers_code, viewsets_code, urls_code
 
     def generate_models(self, models):
         prompt = self.prompts_module.get_model_prompt(models)
@@ -28,3 +31,7 @@ class CodeGenerator:
     def generate_viewsets(self, models):
         prompt = self.prompts_module.get_viewset_prompt(models)
         return self.gpt_client.call(prompt)
+    
+    def generate_urls(self, models):
+        prompt = self.prompts_module.get_urls_prompt(models)
+        return self.gpt_client.call(prompt, many=False)

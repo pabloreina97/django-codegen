@@ -1,5 +1,6 @@
 import json
 from openai import OpenAI
+from django_codegen.utils.schemes import format_schema_many, format_schema_one
 
 class OpenAIClient:
     """
@@ -19,7 +20,7 @@ class OpenAIClient:
             self.model = model
             self._initialized = True
 
-    def call(self, prompt):
+    def call(self, prompt, many=True):
         """
         Método para realizar una llamada a GPT usando `client.chat.completions.create` con el formato adecuado.
         """
@@ -29,54 +30,13 @@ class OpenAIClient:
                 {"role": "system", "content": "Eres un experto en Django que genera código para un proyecto Django."},
                 {"role": "user", "content": prompt}
             ],
-            response_format={
-                "type": "json_schema",
-                "json_schema": {
-                "name": "model_schema_list",
-                "strict": True,
-                "schema": {
-                    "type": "object",
-                    "properties": {
-                    "models": {
-                        "type": "array",
-                        "description": "Lista de objetos que representan diferentes modelos.",
-                        "items": {
-                        "type": "object",
-                        "properties": {
-                            "model": {
-                            "type": "string",
-                            "description": "El nombre del modelo en minúsculas."
-                            },
-                            "class": {
-                            "type": "string",
-                            "description": "El tipo de clase generada (model, serializer, view...)"
-                            },
-                            "code": {
-                            "type": "string",
-                            "description": "El código generado."
-                            }
-                        },
-                        "required": [
-                            "model",
-                            "class",
-                            "code"
-                        ],
-                        "additionalProperties": False
-                        }
-                    }
-                    },
-                    "required": [
-                    "models"
-                    ],
-                    "additionalProperties": False
-                }
-                }
-            },
+            response_format=format_schema_many if many else format_schema_one,
             max_tokens=1024
         )
         # Devolvemos el contenido generado por GPT
         result = json.loads(response.choices[0].message.content)
-        models = result.get('models', [])
         
-        return models
-
+        if many:
+            return result.get('classes', [])
+        else:
+            return result

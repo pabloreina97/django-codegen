@@ -1,9 +1,15 @@
+import sys
 import os
+
+sys.path.append(os.path.abspath(os.path.join(os.path.dirname(__file__), '../')))
+
 from core.generator import CodeGenerator
 from core.manager import CodeGenManager
 from core.writer import CodeWriter
 from prompts.openai_client import OpenAIClient
 from prompts.prompt_builder import PromptBuilder
+
+
 
 def main():
     # Crear instancia del cliente GPT usando la API_KEY de las variables de entorno
@@ -25,7 +31,7 @@ def main():
     user_inputs = {'models': []}
     created_models = set()
 
-    print("Bienvenido al generador de código Django. Vamos a crear tus modelos.")
+    print("Bienvenido al generador de código Django. Vamos a crear tus modelos.\n")
 
     while True:
         # Pedimos al usuario que introduzca el nombre del modelo
