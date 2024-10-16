@@ -6,7 +6,7 @@ class PromptBuilder:
     @staticmethod
     def get_model_prompt(models):
         model_str = "\n".join([f"Modelo: {model['name']} con campos {model['fields']}" for model in models])
-        return (f"Genera el código Django para los siguientes modelos. \n{model_str}")
+        return (f"Genera el código Django para los siguientes modelos. \n{model_str}\n. Si en los campos pone '--gpt_auto_generate', entonces genera los campos automáticamente según el modelo.")
 
     @staticmethod
     def get_serializer_prompt(models):
