@@ -1,8 +1,8 @@
 import click
-from gpt_codegen.core.manager import CodeGenManager
-from gpt_codegen.core.generator import CodeGenerator
-from gpt_codegen.core.writer import CodeWriter
-from gpt_codegen.prompts import model_prompt, serializer_prompt, viewset_prompt
+from django_codegen.core.manager import CodeGenManager
+from django_codegen.core.generator import CodeGenerator
+from django_codegen.core.writer import CodeWriter
+from django_codegen.prompts import model_prompt, serializer_prompt, viewset_prompt
 
 @click.command()
 @click.option('--project-root', prompt="Introduce el directorio raíz del proyecto",
