@@ -1,6 +1,7 @@
 import json
 from openai import OpenAI
-from django_codegen.utils.schemes import format_schema_many, format_schema_one
+from utils.schemes import format_schema_many, format_schema_one
+
 
 class OpenAIClient:
     """
@@ -15,7 +16,7 @@ class OpenAIClient:
         return cls._instance
 
     def __init__(self, api_key, model="gpt-4o-mini"):
-        if not hasattr(self, '_initialized'):          
+        if not hasattr(self, '_initialized'):
             self.client = OpenAI(api_key=api_key)
             self.model = model
             self._initialized = True
@@ -35,7 +36,7 @@ class OpenAIClient:
         )
         # Devolvemos el contenido generado por GPT
         result = json.loads(response.choices[0].message.content)
-        
+
         if many:
             return result.get('classes', [])
         else:
