@@ -2,3 +2,5 @@
 .vscode/
 .env
 output/
+dist/
+django_codegen.eg-info/
