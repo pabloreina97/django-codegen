@@ -31,10 +31,10 @@ class CodeGenManager:
         self.writer.write(models_code, serializers_code, viewsets_code, urls_code)
 
     def create_user(self):
-        with open('data/user.py', 'r') as file:
+        with open('data/user.py.txt', 'r') as file:
             user_model = file.read()
 
-        with open('data/user_serializer.py') as file:
+        with open('data/user_serializer.py.txt') as file:
             user_serializer = file.read()
 
         self.writer.write(user_model, user_serializer, '', '')
