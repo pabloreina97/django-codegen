@@ -4,7 +4,7 @@ build-backend = "setuptools.build_meta"
 
 [project]
 name = "django-codegen"
-version = "0.1.0"
+version = "0.1.1"
 description = "Generador de código de Django utilizando GPT"
 dependencies = ["openai", "click", "colorama", "tqdm"]
 readme = "README.md"
@@ -17,4 +17,4 @@ homepage = "https://github.com/pabloreina97/django-codegen"
 repository = "https://github.com/pabloreina97/django-codegen"
 
 [project.scripts]
-django-codegen = "django_codegen.cli.main:run"
+django-codegen = "django_codegen.main:run"
