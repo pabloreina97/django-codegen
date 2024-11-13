@@ -3,4 +3,4 @@
 .env
 output/
 dist/
-django_codegen.eg-info/
+django_codegen.egg-info/
