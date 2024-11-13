@@ -1,3 +1,8 @@
+from prompts.prompt_builder import PromptBuilder
+from prompts.openai_client import OpenAIClient
+from core.writer import CodeWriter
+from core.manager import CodeGenManager
+from core.generator import CodeGenerator
 import sys
 import os
 import time
@@ -7,13 +12,7 @@ from colorama import Fore, Style, init
 from tqdm import tqdm
 
 init(autoreset=True)
-sys.path.append(os.path.abspath(os.path.join(os.path.dirname(__file__), '../')))
 
-from core.generator import CodeGenerator
-from core.manager import CodeGenManager
-from core.writer import CodeWriter
-from prompts.openai_client import OpenAIClient
-from prompts.prompt_builder import PromptBuilder
 
 def spinner():
     for c in itertools.cycle(['|', '/', '-', '\\']):
