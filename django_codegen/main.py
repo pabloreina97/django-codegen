@@ -55,6 +55,9 @@ def main():
         if model_name.lower() == '':
             break
 
+        if model_name.lower() == 'user':
+            manager.create_user()
+
         # Preguntamos los campos del modelo
         fields = input(f"{Fore.YELLOW}Introduce los campos del modelo {model_name} separados por comas (o deja en blanco para generar automáticamente): ").strip()
 
