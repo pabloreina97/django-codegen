@@ -1,11 +1,12 @@
 import os
 
+
 class CodeWriter:
     """
     Este componente se encarga de escribir el código generado en los archivos adecuados,
     separando cada modelo, serializer y viewset en archivos individuales.
     """
-    
+
     def __init__(self, project_root):
         self.project_root = project_root
 
@@ -41,3 +42,7 @@ class CodeWriter:
             file_path = os.path.join(dir_path, f"{content.get('class')}s.py")
             with open(file_path, 'w') as file:
                 file.write(content.get('code'))
+
+    def raw_write(self, file_path, content):
+        with open(file_path, 'w') as file:
+            file.write(content)

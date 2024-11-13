@@ -1,3 +1,6 @@
+import os
+
+
 class CodeGenManager:
     """
     Este archivo contendrá un Manager que se encargará de orquestar el flujo completo, desde la interacción con el
@@ -31,10 +34,15 @@ class CodeGenManager:
         self.writer.write(models_code, serializers_code, viewsets_code, urls_code)
 
     def create_user(self):
-        with open('data/user.py.txt', 'r') as file:
+        root_dir = os.path.dirname(os.path.dirname(__file__))
+        user_model_path = os.path.join(root_dir, 'data', 'user.py.txt')
+        user_serializer_path = os.path.join(root_dir, 'data', 'user_serializer.py.txt')
+
+        with open(user_model_path, 'r') as file:
             user_model = file.read()
 
-        with open('data/user_serializer.py.txt') as file:
+        with open(user_serializer_path, 'r') as file:
             user_serializer = file.read()
 
-        self.writer.write(user_model, user_serializer, '', '')
+        self.writer.raw_write('models.py', user_model)
+        self.writer.raw_write('serializers.py', user_serializer)

@@ -57,29 +57,29 @@ def main():
 
         if model_name.lower() == 'user':
             manager.create_user()
+        else:
+            # Preguntamos los campos del modelo
+            fields = input(f"{Fore.YELLOW}Introduce los campos del modelo {model_name} separados por comas (o deja en blanco para generar automáticamente): ").strip()
 
-        # Preguntamos los campos del modelo
-        fields = input(f"{Fore.YELLOW}Introduce los campos del modelo {model_name} separados por comas (o deja en blanco para generar automáticamente): ").strip()
+            # Si el usuario deja los campos en blanco, GPT generará los campos
+            if not fields:
+                fields = 'gpt_auto_generate'  # Marcador especial para indicar que GPT debe generar los campos
 
-        # Si el usuario deja los campos en blanco, GPT generará los campos
-        if not fields:
-            fields = 'gpt_auto_generate'  # Marcador especial para indicar que GPT debe generar los campos
+            # Verificar si los campos incluyen otros modelos (para relaciones ForeignKey)
+            fields_list = fields.split(', ') if fields != '--gpt_auto_generate' else []
+            for field in fields_list:
+                if field in created_models:
+                    # Si el campo es un modelo existente, lo tratamos como un ForeignKey
+                    fields = fields.replace(field, f"{field} (ForeignKey)")
 
-        # Verificar si los campos incluyen otros modelos (para relaciones ForeignKey)
-        fields_list = fields.split(', ') if fields != '--gpt_auto_generate' else []
-        for field in fields_list:
-            if field in created_models:
-                # Si el campo es un modelo existente, lo tratamos como un ForeignKey
-                fields = fields.replace(field, f"{field} (ForeignKey)")
+            # Agregar el modelo a la lista de modelos del usuario
+            user_inputs['models'].append({
+                'name': model_name,
+                'fields': fields
+            })
 
-        # Agregar el modelo a la lista de modelos del usuario
-        user_inputs['models'].append({
-            'name': model_name,
-            'fields': fields
-        })
-
-        # Agregar el modelo creado a la lista de modelos existentes
-        created_models.add(model_name.lower())
+            # Agregar el modelo creado a la lista de modelos existentes
+            created_models.add(model_name.lower())
 
     if user_inputs['models']:
         # Si se han introducido modelos, generamos y escribimos el código
