@@ -1,0 +1,3 @@
+include README.md
+include django_codegen/data/user.py.txt
+include django_codegen/data/user_serializer.py.txt
