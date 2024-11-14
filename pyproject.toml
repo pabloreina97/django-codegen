@@ -17,4 +17,4 @@ homepage = "https://github.com/pabloreina97/django-codegen"
 repository = "https://github.com/pabloreina97/django-codegen"
 
 [project.scripts]
-django-codegen = "django_codegen.main:run"
+django-codegen = "django_codegen.main:main"
