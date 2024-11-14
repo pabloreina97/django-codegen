@@ -1,6 +1,6 @@
 import json
 from openai import OpenAI
-from utils.schemes import format_schema_many, format_schema_one
+from utils.schemes import code_schema
 
 
 class OpenAIClient:
@@ -21,9 +21,11 @@ class OpenAIClient:
             self.model = model
             self._initialized = True
 
-    def call(self, prompt, many=True):
+    def call(self, prompt):
         """
         Método para realizar una llamada a GPT usando `client.chat.completions.create` con el formato adecuado.
+        :param prompt: El prompt que se enviará a GPT.
+        :param many: Indica si se esperan varios codigos o uno solo para todas las clases.
         """
         response = self.client.chat.completions.create(
             model=self.model,
@@ -31,13 +33,10 @@ class OpenAIClient:
                 {"role": "system", "content": "Eres un experto en Django que genera código para un proyecto Django."},
                 {"role": "user", "content": prompt}
             ],
-            response_format=format_schema_many if many else format_schema_one,
+            response_format=code_schema,
             max_tokens=1024
         )
         # Devolvemos el contenido generado por GPT
         result = json.loads(response.choices[0].message.content)
 
-        if many:
-            return result.get('classes', [])
-        else:
-            return result
+        return result.get('classes', [])

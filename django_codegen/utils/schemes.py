@@ -1,4 +1,4 @@
-format_schema_many = {
+code_schema = {
     "type": "json_schema",
     "json_schema": {
         "name": "model_schema_list",
@@ -8,17 +8,17 @@ format_schema_many = {
             "properties": {
                 "classes": {
                     "type": "array",
-                    "description": "Lista de objetos que representan diferentes clases.",
+                    "description": "Lista de diccionarios con el código e información de las clases generadas.",
                     "items": {
                         "type": "object",
                         "properties": {
                             "model": {
                                 "type": "string",
-                                "description": "El nombre del modelo en minúsculas.",
+                                "description": "El nombre del modelo en minúsculas. Si en un mismo código hay diferentes modelos, se pone '*' para indicar que es para todos los modelos.",
                             },
                             "class": {
                                 "type": "string",
-                                "description": "El tipo de clase generada (model, serializer, view, url...)",
+                                "description": "El tipo de clase generada (model, serializer, view, urls...)",
                             },
                             "code": {
                                 "type": "string",
@@ -31,29 +31,6 @@ format_schema_many = {
                 }
             },
             "required": ["classes"],
-            "additionalProperties": False,
-        },
-    },
-}
-
-format_schema_one = {
-    "type": "json_schema",
-    "json_schema": {
-        "name": "model_schema",
-        "strict": True,
-        "schema": {
-            "type": "object",
-            "properties": {
-                "class": {
-                    "type": "string",
-                    "description": "El tipo de clase generada (model, serializer, view, url...)",
-                },
-                "code": {
-                    "type": "string",
-                    "description": "El código generado.",
-                },
-            },
-            "required": ["class", "code"],
             "additionalProperties": False,
         },
     },
