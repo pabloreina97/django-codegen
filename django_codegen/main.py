@@ -86,7 +86,7 @@ def main():
 
                 # Si el usuario deja los campos en blanco, GPT generará los campos
                 if not fields:
-                    fields = 'gpt_auto_generate'  # Marcador especial para indicar que GPT debe generar los campos
+                    fields = '--gpt_auto_generate'  # Marcador especial para indicar que GPT debe generar los campos
 
                 # Verificar si los campos incluyen otros modelos (para relaciones ForeignKey)
                 fields_list = [field.strip() for field in fields.split(',')]
