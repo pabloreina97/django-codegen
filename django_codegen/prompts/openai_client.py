@@ -1,6 +1,6 @@
 import json
 from openai import OpenAI
-from utils.schemes import code_schema
+from django_codegen.utils.schemes import code_schema
 
 
 class OpenAIClient:

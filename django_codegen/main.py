@@ -7,11 +7,11 @@ from itertools import cycle
 from colorama import Fore, Style, init
 from dotenv import load_dotenv
 
-from core.generator import CodeGenerator
-from core.manager import CodeGenManager
-from core.writer import CodeWriter
-from prompts.openai_client import OpenAIClient
-from prompts.prompt_builder import PromptBuilder
+from django_codegen.core.generator import CodeGenerator
+from django_codegen.core.manager import CodeGenManager
+from django_codegen.core.writer import CodeWriter
+from django_codegen.prompts.openai_client import OpenAIClient
+from django_codegen.prompts.prompt_builder import PromptBuilder
 
 init(autoreset=True)
 
