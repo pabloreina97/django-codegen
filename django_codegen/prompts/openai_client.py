@@ -34,7 +34,7 @@ class OpenAIClient:
                 {"role": "user", "content": prompt}
             ],
             response_format=code_schema,
-            max_tokens=1024
+            max_tokens=8192
         )
         # Devolvemos el contenido generado por GPT
         result = json.loads(response.choices[0].message.content)
