@@ -5,6 +5,7 @@ import threading
 from itertools import cycle
 
 from colorama import Fore, Style, init
+from dotenv import load_dotenv
 
 from core.generator import CodeGenerator
 from core.manager import CodeGenManager
@@ -37,7 +38,9 @@ class Spinner:
 
 
 def main():
-    # Crear instancia del cliente GPT usando la API_KEY de las variables de entorno
+
+    load_dotenv(dotenv_path=os.path.join(os.getcwd(), '.env'))
+    print('\nEstableciendo ruta de origen en: ', os.getcwd())
     api_key = os.environ.get("OPENAI_API_KEY")
     if not api_key:
         print(Fore.RED + "La variable de entorno OPENAI_API_KEY no está configurada.")
@@ -46,8 +49,10 @@ def main():
     gpt_client = OpenAIClient(api_key=api_key)
     manager = CodeGenManager()
 
+    app_name = input(f"{Fore.BLUE}Introduce el nombre de la aplicación Django: ").strip()
+
     # Obtener la ruta del directorio actual para la salida
-    output_dir = os.getcwd()
+    output_dir = os.path.join(os.getcwd(), app_name)
 
     # Inicializamos el generador y el escritor
     generator = CodeGenerator(PromptBuilder(), gpt_client)
@@ -99,7 +104,7 @@ def main():
                 # Agregar el modelo creado a la lista de modelos existentes
                 created_models.add(model_name.lower())
         except KeyboardInterrupt:
-            print("\nOperación cancelada por el usuario.")
+            print(Fore.YELLOW + "\nOperación cancelada por el usuario.")
             sys.exit(0)
 
     if user_inputs['models']:
